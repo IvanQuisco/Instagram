@@ -13,6 +13,7 @@
 		2D084EAC24D8D5A200C5A679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D084EAA24D8D5A200C5A679 /* Main.storyboard */; };
 		2D084EAE24D8D5A600C5A679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D084EAD24D8D5A600C5A679 /* Assets.xcassets */; };
 		2D084EB124D8D5A600C5A679 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D084EAF24D8D5A600C5A679 /* LaunchScreen.storyboard */; };
+		2DA5490924D9FD0300CBD5F5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5490824D9FD0300CBD5F5 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		2D084EAD24D8D5A600C5A679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D084EB024D8D5A600C5A679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D084EB224D8D5A600C5A679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DA5490824D9FD0300CBD5F5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		2D084EA324D8D5A200C5A679 /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				2DA5490724D9FCF000CBD5F5 /* Utilities */,
 				2D084EA424D8D5A200C5A679 /* AppDelegate.swift */,
 				2D084EA624D8D5A200C5A679 /* SceneDelegate.swift */,
 				2D084EA824D8D5A200C5A679 /* ViewController.swift */,
@@ -65,6 +68,14 @@
 				2D084EB224D8D5A600C5A679 /* Info.plist */,
 			);
 			path = Instagram;
+			sourceTree = "<group>";
+		};
+		2DA5490724D9FCF000CBD5F5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5490824D9FD0300CBD5F5 /* Extensions.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +152,7 @@
 				2D084EA924D8D5A200C5A679 /* ViewController.swift in Sources */,
 				2D084EA524D8D5A200C5A679 /* AppDelegate.swift in Sources */,
 				2D084EA724D8D5A200C5A679 /* SceneDelegate.swift in Sources */,
+				2DA5490924D9FD0300CBD5F5 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,6 @@ class ViewController: UIViewController {
         let view = UIButton(type: .system)
         let image = UIImage(named: "plus_photo")?.withRenderingMode(.alwaysOriginal)
         view.setImage(image, for: .normal)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -24,7 +23,6 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -34,7 +32,6 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -45,18 +42,16 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.isSecureTextEntry = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     var signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
+        button.backgroundColor = UIColor.rgb(149,204,244)
         button.setTitle("Sign In", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -68,26 +63,27 @@ class ViewController: UIViewController {
 
     fileprivate func setupUI() {
         view.addSubview(plusImageButton)
-        plusImageButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
         plusImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        plusImageButton.heightAnchor.constraint(equalToConstant: 140).isActive = true
-        plusImageButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        plusImageButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                               bottom: nil,
+                               leading: nil,
+                               trailing: nil,
+                               paddings: .init(top: 40, left: 0, bottom: 0, right: 0),
+                               width: 140,
+                               height: 140)
+        
         
         let stackView = UIStackView(arrangedSubviews: [emailTextfield,usernameTextfield,passwordTextfield, signUpButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 10
         view.addSubview(stackView)
-        
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: plusImageButton.bottomAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            stackView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-        
+        stackView.anchor(top: plusImageButton.bottomAnchor,
+                         bottom: nil,
+                         leading: view.leadingAnchor,
+                         trailing: view.trailingAnchor,
+                         paddings: .init(top: 20, left: 40, bottom: 0, right: -40),
+                         width: 0,
+                         height: 200)
     }
-
 }
-
