@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     
     var plusImageButton: UIButton = {
         let view = UIButton(type: .system)
-        view.backgroundColor = .red
+        let image = UIImage(named: "plus_photo")?.withRenderingMode(.alwaysOriginal)
+        view.setImage(image, for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -20,8 +21,9 @@ class ViewController: UIViewController {
     var emailTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Email"
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
+        view.font = UIFont.systemFont(ofSize: 14)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -29,8 +31,9 @@ class ViewController: UIViewController {
     var usernameTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Username"
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
+        view.font = UIFont.systemFont(ofSize: 14)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -38,8 +41,9 @@ class ViewController: UIViewController {
     var passwordTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Password"
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
+        view.font = UIFont.systemFont(ofSize: 14)
         view.isSecureTextEntry = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -47,10 +51,11 @@ class ViewController: UIViewController {
     
     var signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .cyan
+        button.backgroundColor = UIColor(red: 149/255, green: 204/255, blue: 244/255, alpha: 1)
         button.setTitle("Sign In", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 6
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -63,10 +68,10 @@ class ViewController: UIViewController {
 
     fileprivate func setupUI() {
         view.addSubview(plusImageButton)
-        plusImageButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        plusImageButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
         plusImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        plusImageButton.heightAnchor.constraint(equalToConstant: 160).isActive = true
-        plusImageButton.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        plusImageButton.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        plusImageButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
         
         let stackView = UIStackView(arrangedSubviews: [emailTextfield,usernameTextfield,passwordTextfield, signUpButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
