@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class ViewController: UIViewController {
     
@@ -98,8 +99,10 @@ class ViewController: UIViewController {
     }
 }
 
+//MARK: - Targets
 
 extension ViewController {
+    
     @objc func signUpButtonTapped() {
         guard let email = emailTextfield.text, !email.isEmpty else {
             return
@@ -111,25 +114,63 @@ extension ViewController {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+        //Prepare image to be uploaded
+        guard let image = plusImageButton.imageView?.image else {return}
+        guard let data = image.jpegData(compressionQuality: 0.1) else {return}
+        
+        //Upload image
+        let imageFileName = UUID().uuidString
+        let reference = Storage.storage().reference().child("profile_images").child(imageFileName)
+        
+        reference.putData(data, metadata: nil) { (metadata, error) in
             if let error = error {
-                print("Sth went wrong: ", error)
+                print("Failed to upload profile image to storage: ", error)
                 return
             }
             
-            guard let user = user else {return}
+            print("image uploaded")
             
-            let usernameValues = ["username": username]
-            let values = [user.user.uid: usernameValues]
-            
-            Database.database().reference().child("users").updateChildValues(values) { (error, reference) in
-                if let error = error {
-                    print("Failled to save user info into db: ", error)
-                    return
-                }
-                print("Successfully saved user info to db")
+            //Get image URL
+            if metadata != nil {
+                reference.downloadURL(completion: { (url, error) in
+                    if let error = error {
+                        print("failed getting image url: ", error)
+                        return
+                    }
+                    
+                    //Create user
+                    if let imageUrl = url {
+                        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                            if let error = error {
+                                print("Sth went wrong: ", error)
+                                return
+                            }
+                            
+                            //Upload user info
+                            self.uploadInfo(for: user, username: username, imageURL: imageUrl.absoluteString)
+
+                        }
+                    }
+                })
             }
-                
+        }
+    }
+    
+    func uploadInfo(for user: AuthDataResult?, username: String, imageURL: String ) {
+        guard let user = user else {return}
+
+        let dictionaryValues = [
+            "username": username,
+            "profileImageUrl": imageURL
+        ]
+        let values = [user.user.uid: dictionaryValues]
+
+        Database.database().reference().child("users").updateChildValues(values) { (error, reference) in
+            if let error = error {
+                print("Failled to save user info into db: ", error)
+                return
+            }
+            print("Successfully saved user info to db")
         }
     }
     
@@ -152,6 +193,7 @@ extension ViewController {
 
 //MARK: - ImagePickerViewDelegate
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let editedImage = info[.editedImage] as? UIImage {
