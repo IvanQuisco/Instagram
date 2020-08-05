@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class ViewController: UIViewController {
     
@@ -102,9 +103,9 @@ extension ViewController {
         guard let email = emailTextfield.text, !email.isEmpty else {
             return
         }
-//        guard let username = usernameTextfield.text, !username.isEmpty else {
-//            return
-//        }
+        guard let username = usernameTextfield.text, !username.isEmpty else {
+            return
+        }
         guard let password = passwordTextfield.text, !password.isEmpty else {
             return
         }
@@ -115,9 +116,19 @@ extension ViewController {
                 return
             }
             
-            if let user = user {
-                print(user.user.uid)
+            guard let user = user else {return}
+            
+            let usernameValues = ["username": username]
+            let values = [user.user.uid: usernameValues]
+            
+            Database.database().reference().child("users").updateChildValues(values) { (error, reference) in
+                if let error = error {
+                    print("Failled to save user info into db: ", error)
+                    return
+                }
+                print("Successfully saved user info to db")
             }
+                
         }
     }
     
