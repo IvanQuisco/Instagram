@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.keyboardType = .emailAddress
+        view.autocapitalizationType = .none
         view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
@@ -39,6 +40,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.keyboardType = .emailAddress
+        view.autocapitalizationType = .none
         view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
@@ -50,6 +52,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.isSecureTextEntry = true
+        view.autocapitalizationType = .none
         view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
