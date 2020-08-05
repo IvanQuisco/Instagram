@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.keyboardType = .emailAddress
+        view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
     
@@ -35,6 +36,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.keyboardType = .emailAddress
+        view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
     
@@ -45,6 +47,7 @@ class ViewController: UIViewController {
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
         view.isSecureTextEntry = true
+        view.addTarget(self, action: #selector(textfieldTextChanged), for: .editingChanged)
         return view
     }()
     
@@ -55,6 +58,7 @@ class ViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -115,6 +119,14 @@ extension ViewController {
                 print(user.user.uid)
             }
         }
-        
+    }
+    
+    
+    @objc func textfieldTextChanged() {
+        let isSignUpButtonEnabled = !(emailTextfield.text?.isEmpty ?? true) &&
+            !(usernameTextfield.text?.isEmpty ?? true) &&
+            !(passwordTextfield.text?.isEmpty ?? true)
+        signUpButton.isEnabled = isSignUpButtonEnabled
+        signUpButton.backgroundColor = isSignUpButtonEnabled ? UIColor.rgb(17, 154, 237) : UIColor.rgb(149,204,244)
     }
 }
