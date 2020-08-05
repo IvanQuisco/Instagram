@@ -16,6 +16,7 @@ class ViewController: UIViewController {
         let view = UIButton(type: .system)
         let image = UIImage(named: "plus_photo")?.withRenderingMode(.alwaysOriginal)
         view.setImage(image, for: .normal)
+        view.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         return view
     }()
     
@@ -132,12 +133,42 @@ extension ViewController {
         }
     }
     
-    
     @objc func textfieldTextChanged() {
         let isSignUpButtonEnabled = !(emailTextfield.text?.isEmpty ?? true) &&
             !(usernameTextfield.text?.isEmpty ?? true) &&
             !(passwordTextfield.text?.isEmpty ?? true)
         signUpButton.isEnabled = isSignUpButtonEnabled
         signUpButton.backgroundColor = isSignUpButtonEnabled ? UIColor.rgb(17, 154, 237) : UIColor.rgb(149,204,244)
+    }
+    
+    @objc func plusButtonTapped() {
+        let pickerController = UIImagePickerController()
+        pickerController.allowsEditing = true
+        pickerController.delegate = self
+        self.present(pickerController, animated: true, completion: nil)
+        
+    }
+}
+
+//MARK: - ImagePickerViewDelegate
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            plusImageButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            plusImageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        
+        self.updatePlusButtonUIAfterSelection()
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func updatePlusButtonUIAfterSelection() {
+        plusImageButton.layer.cornerRadius = plusImageButton.frame.width/2
+        plusImageButton.layer.masksToBounds = true
+        plusImageButton.layer.borderWidth = 2
+        plusImageButton.layer.borderColor = UIColor.black.cgColor
     }
 }
