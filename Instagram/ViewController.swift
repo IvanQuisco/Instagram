@@ -7,35 +7,38 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
     
-    var plusImageButton: UIButton = {
+    let plusImageButton: UIButton = {
         let view = UIButton(type: .system)
         let image = UIImage(named: "plus_photo")?.withRenderingMode(.alwaysOriginal)
         view.setImage(image, for: .normal)
         return view
     }()
     
-    var emailTextfield: UITextField = {
+    let emailTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Email"
         view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
+        view.keyboardType = .emailAddress
         return view
     }()
     
-    var usernameTextfield: UITextField = {
+    let usernameTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Username"
         view.backgroundColor = UIColor(white: 0, alpha: 0.03)
         view.borderStyle = .roundedRect
         view.font = UIFont.systemFont(ofSize: 14)
+        view.keyboardType = .emailAddress
         return view
     }()
     
-    var passwordTextfield: UITextField = {
+    let passwordTextfield: UITextField = {
         let view = UITextField()
         view.placeholder = "Password"
         view.backgroundColor = UIColor(white: 0, alpha: 0.03)
@@ -45,13 +48,14 @@ class ViewController: UIViewController {
         return view
     }()
     
-    var signUpButton: UIButton = {
+    let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor.rgb(149,204,244)
         button.setTitle("Sign In", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -85,5 +89,32 @@ class ViewController: UIViewController {
                          paddings: .init(top: 20, left: 40, bottom: 0, right: -40),
                          width: 0,
                          height: 200)
+    }
+}
+
+
+extension ViewController {
+    @objc func signUpButtonTapped() {
+        guard let email = emailTextfield.text, !email.isEmpty else {
+            return
+        }
+//        guard let username = usernameTextfield.text, !username.isEmpty else {
+//            return
+//        }
+        guard let password = passwordTextfield.text, !password.isEmpty else {
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if let error = error {
+                print("Sth went wrong: ", error)
+                return
+            }
+            
+            if let user = user {
+                print(user.user.uid)
+            }
+        }
+        
     }
 }
