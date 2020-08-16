@@ -91,7 +91,7 @@ class UserProfileHeaderView: UICollectionReusableView {
     
     let editProfileButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         btn.setTitle("Edit profile", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.layer.borderColor = UIColor.lightGray.cgColor
@@ -154,12 +154,12 @@ class UserProfileHeaderView: UICollectionReusableView {
         stackView.distribution = .fillEqually
         
         self.addSubview(stackView)
-        stackView.anchor(top: self.topAnchor, bottom: nil, leading: userProfileImageView.trailingAnchor, trailing: self.trailingAnchor, paddings: .init(top: 12, left: 12, bottom: 0, right: -12), width: 0, height: 40)
+        stackView.anchor(top: self.topAnchor, bottom: nil, leading: userProfileImageView.trailingAnchor, trailing: self.trailingAnchor, paddings: .init(top: 20, left: 12, bottom: 0, right: -12), width: 0, height: 40)
     }
     
     fileprivate func setupEditProfileButton() {
         self.addSubview(editProfileButton)
-        editProfileButton.anchor(top: postLabel.bottomAnchor, bottom: nil, leading: postLabel.leadingAnchor, trailing: followingLabel.trailingAnchor, paddings: .init(top: 5, left: 0, bottom: 0, right: 0), width: 0, height: 26)
+        editProfileButton.anchor(top: postLabel.bottomAnchor, bottom: nil, leading: postLabel.leadingAnchor, trailing: followingLabel.trailingAnchor, paddings: .init(top: 5, left: 0, bottom: 0, right: 0), width: 0, height: 24)
     }
     
     func setUserInfo() {
