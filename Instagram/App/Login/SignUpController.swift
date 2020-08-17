@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SignUpController.swift
 //  Instagram
 //
 //  Created by Ivan Quintana on 03/08/20.
@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 
-class ViewController: UIViewController {
+class SignUpController: UIViewController {
     
     let plusImageButton: UIButton = {
         let view = UIButton(type: .system)
@@ -104,7 +104,7 @@ class ViewController: UIViewController {
 
 //MARK: - Targets
 
-extension ViewController {
+extension SignUpController {
     
     @objc func signUpButtonTapped() {
         guard let email = emailTextfield.text, !email.isEmpty else {
@@ -195,7 +195,7 @@ extension ViewController {
 }
 
 //MARK: - ImagePickerViewDelegate
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         

@@ -7,15 +7,28 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupControllers()
     }
     
     fileprivate func setupControllers() {
         self.tabBar.tintColor = .black
+        
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                let loginController = LogInController()
+                let nav = UINavigationController(rootViewController: loginController)
+                nav.modalPresentationStyle = .fullScreen
+                nav.isNavigationBarHidden = true
+                self.present(nav, animated: true, completion: nil)
+            }
+            return
+        }
         
         let layout = UICollectionViewFlowLayout()
         let userProfileController = UserProfileController(collectionViewLayout: layout)

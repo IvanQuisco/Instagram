@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class UserProfileController: UICollectionViewController {
     
@@ -26,10 +27,39 @@ class UserProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.backgroundColor = .white
+        setupNavigationBar()
         setupCollectionView()
         fetchUser()
         
     }
+    
+    fileprivate func setupNavigationBar() {
+        let gearImage = UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: gearImage, style: .done, target: self, action: #selector(logOutButtonTapped))
+    }
+    
+    @objc func logOutButtonTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
+            
+            do {
+                try Auth.auth().signOut()
+                DispatchQueue.main.async {
+                    let loginController = LogInController()
+                    let nav = UINavigationController(rootViewController: loginController)
+                    nav.modalPresentationStyle = .fullScreen
+                    nav.isNavigationBarHidden = true
+                    self.present(nav, animated: true, completion: nil)
+                }
+            } catch let err {
+                print("Error signing out: ", err.localizedDescription)
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     
     fileprivate func setupCollectionView() {
         collectionView.register(UserProfileHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
