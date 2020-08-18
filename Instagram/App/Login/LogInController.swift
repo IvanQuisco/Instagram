@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LogInController: UIViewController {
     
@@ -93,7 +94,7 @@ class LogInController: UIViewController {
         stackView.spacing = 10
         view.addSubview(stackView)
         stackView.anchor(top: logoView.bottomAnchor,
-                         bottom: nil, 
+                         bottom: nil,
                          leading: view.leadingAnchor,
                          trailing: view.trailingAnchor,
                          paddings: .init(top: 40, left: 40, bottom: 0, right: -40),
@@ -112,7 +113,22 @@ class LogInController: UIViewController {
 
 extension LogInController {
     @objc func logIntButtonTapped() {
+        guard let email = emailTextfield.text, let password = passwordTextfield.text else {
+            return
+        }
         
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            if Auth.auth().currentUser?.uid != nil {
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+            
+        }
     }
     
     

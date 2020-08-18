@@ -16,6 +16,11 @@ class MainTabBarController: UITabBarController {
         setupControllers()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupControllers()
+    }
+    
     fileprivate func setupControllers() {
         self.tabBar.tintColor = .black
         
