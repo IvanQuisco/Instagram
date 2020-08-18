@@ -68,6 +68,18 @@ class SignUpController: UIViewController {
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    let alreadyHaveAnAccountButton: UIButton = {
+        let btn = UIButton(type: .system)
+        let attributed = NSMutableAttributedString(string: "Already have an account? ", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray])
+        attributed.append(NSAttributedString(string: "Log In.", attributes: [.font: UIFont.boldSystemFont(ofSize: 14) ,
+        .foregroundColor: UIColor.rgb(17, 154, 237)]))
+        btn.setAttributedTitle(attributed, for: .normal)
+        btn.titleLabel?.textAlignment = .center
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(alreadyHaveAnAccountButtonTapped), for: .touchUpInside)
+        return btn
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +88,9 @@ class SignUpController: UIViewController {
     }
 
     fileprivate func setupUI() {
+        view.addSubview(alreadyHaveAnAccountButton)
+        alreadyHaveAnAccountButton.anchor(top: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, paddings: .init(top: 0, left: 0, bottom: -10, right: 0), width: 0, height: 50)
+        
         view.addSubview(plusImageButton)
         plusImageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         plusImageButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -101,7 +116,6 @@ class SignUpController: UIViewController {
                          height: 200)
     }
 }
-
 //MARK: - Targets
 
 extension SignUpController {
@@ -191,6 +205,10 @@ extension SignUpController {
         pickerController.delegate = self
         self.present(pickerController, animated: true, completion: nil)
         
+    }
+    
+    @objc func alreadyHaveAnAccountButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
