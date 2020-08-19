@@ -12,7 +12,8 @@ import FirebaseAuth
 class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+            
+        self.delegate = self
         self.tabBar.tintColor = .black
         view.backgroundColor = .white
     }
@@ -61,5 +62,21 @@ class MainTabBarController: UITabBarController {
         navController.tabBarItem.selectedImage = UIImage(named: selectedImageName)?.withRenderingMode(.alwaysOriginal)
         return navController
         
+    }
+}
+
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = tabBarController.viewControllers?.firstIndex(of: viewController)
+        if index == 2 {
+            let layout = UICollectionViewFlowLayout()
+            let photoController = PhotoSelectionController(collectionViewLayout: layout)
+            let nav = UINavigationController(rootViewController: photoController)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+            return false
+        }
+        return true
     }
 }
