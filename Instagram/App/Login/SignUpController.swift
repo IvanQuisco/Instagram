@@ -80,6 +80,8 @@ class SignUpController: UIViewController {
         btn.addTarget(self, action: #selector(alreadyHaveAnAccountButtonTapped), for: .touchUpInside)
         return btn
     }()
+    
+    var isPhotoSelected: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,8 +133,10 @@ extension SignUpController {
             return
         }
         
+        let selectedImage = isPhotoSelected ? plusImageButton.imageView?.image : UIImage(named: "userPlaceHolderImage")
+        
         //Prepare image to be uploaded
-        guard let image = plusImageButton.imageView?.image else {return}
+        guard let image = selectedImage else {return}
         guard let data = image.jpegData(compressionQuality: 0.1) else {return}
         
         //Upload image
@@ -188,6 +192,9 @@ extension SignUpController {
                 return
             }
             print("Successfully saved user info to db")
+            
+            self.dismiss(animated: true, completion: nil)
+            
         }
     }
     
@@ -229,6 +236,7 @@ extension SignUpController: UIImagePickerControllerDelegate, UINavigationControl
     }
     
     func updatePlusButtonUIAfterSelection() {
+        self.isPhotoSelected = true
         plusImageButton.layer.cornerRadius = plusImageButton.frame.width/2
         plusImageButton.layer.masksToBounds = true
         plusImageButton.layer.borderWidth = 2

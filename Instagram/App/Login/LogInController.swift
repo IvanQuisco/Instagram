@@ -11,6 +11,10 @@ import FirebaseAuth
 
 class LogInController: UIViewController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     let logoView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.rgb(0, 120, 175)
@@ -117,13 +121,13 @@ extension LogInController {
             return
         }
         
-        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
             
-            if Auth.auth().currentUser?.uid != nil {
+            if user?.user.uid != nil {
                 self.dismiss(animated: true, completion: nil)
             }
             
