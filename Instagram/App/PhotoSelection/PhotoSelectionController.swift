@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import Photos
 
 class PhotoSelectionController: UICollectionViewController {
     
     let cellID = "cellID"
     let headerID = "headerID"
+    
+    var userImages: [UIImage] = []
     
     
     override var prefersStatusBarHidden: Bool {
@@ -22,7 +25,9 @@ class PhotoSelectionController: UICollectionViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupCollectionView()
+        fetchImages()
     }
+    
     
     fileprivate func setupNavigationBar() {
         self.navigationController?.navigationBar.tintColor = .black
@@ -34,10 +39,40 @@ class PhotoSelectionController: UICollectionViewController {
     
     fileprivate func setupCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.register(PhotoSelectionCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerID)
     }
     
+    
+    fileprivate func fetchImages() {
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = .max
+        let sortDes = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchOptions.sortDescriptors = [sortDes]
+        
+        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        allPhotos.enumerateObjects { (asset, count, stop) in
+            let imageManager = PHImageManager.default()
+            let targetSize = CGSize(width: 350, height: 350)
+            let options = PHImageRequestOptions()
+            options.isSynchronous = true
+            imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options) { (image, info) in
+                
+                if let image = image {
+                    self.userImages.append(image)
+                }
+
+                
+                if count == self.userImages.count - 1 {
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension PhotoSelectionController {
@@ -52,12 +87,12 @@ extension PhotoSelectionController {
 
 extension PhotoSelectionController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 60
+        return userImages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        cell.backgroundColor = .gray
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! PhotoSelectionCell
+        cell.imageView.image = userImages[indexPath.item]
         return cell
     }
     
