@@ -1,5 +1,5 @@
 //
-//  PhotoSelectionCell.swift
+//  PhotoSelectionHeader.swift
 //  Instagram
 //
 //  Created by Ivan Quintana on 20/08/20.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-class PhotoSelectionCell: UICollectionViewCell {
-    
+class PhotoSelectionHeader: UICollectionReusableView {
     let imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
